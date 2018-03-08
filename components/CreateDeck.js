@@ -1,19 +1,32 @@
 import React, { Component } from 'react'
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
+import { connect } from 'react-redux'
+import { createDeck } from '../actions'
+import { NavigationActions } from 'react-navigation'
 
-export default class NewDeck extends Component {
+class CreateDeck extends Component {
   state = {
     title: '',
   }
 
   submit = () => {
-    alert('Opa!')
+    const title = this.state
+
+    this.setState(() => ({
+      title: ''
+    }))
+
+    this.props.dispatch(createDeck({
+      [title]: {}
+    })).then(() => {
+      this.props.navigation.navigate('Deck')
+    })
   }
 
   render() {
     return (
-      <View style={{flex:1, alignItems:'center', justifyContent:'center'}}>
-        <Text style={{fontSize:30, marginBottom:10}}>Insert deck title</Text>
+      <View style={{flex:1, alignItems:'center', justifyContent:'center', padding:10}}>
+        <Text style={{fontSize:25, marginBottom:10}}>Insert deck title</Text>
         <TextInput
           style={styles.titleInput}
           placeholder='Title'
@@ -21,7 +34,7 @@ export default class NewDeck extends Component {
           onChangeText={(text) => this.setState({title: text})}
         />
         <TouchableOpacity style={styles.submitBtn} onPress={this.submit}>
-          <Text style={{color:'white', fontSize:30}}>SUBMIT</Text>
+          <Text style={{color:'white', fontSize:25}}>SUBMIT</Text>
         </TouchableOpacity>
       </View>
     )
@@ -32,22 +45,22 @@ const styles = StyleSheet.create({
   titleInput: {
     height: 100,
     alignSelf: 'stretch',
-    fontSize: 30,
-    marginRight: 10,
-    marginLeft: 10,
+    fontSize: 25,
     textAlign: 'center',
-    borderColor: 'gray',
     borderWidth: 3,
-    borderRadius: 10
+    borderColor: 'gray',
+    borderRadius: 10,
   },
   submitBtn: {
     backgroundColor: 'purple',
-    height: 100,
-    width: 300,
     marginTop: 50,
-    padding: 10,
+    padding: 20,
+    paddingLeft: 40,
+    paddingRight: 40,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
   }
 })
+
+export default connect()(CreateDeck)
