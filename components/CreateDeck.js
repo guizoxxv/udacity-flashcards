@@ -1,25 +1,18 @@
 import React, { Component } from 'react'
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
-import { connect } from 'react-redux'
-import { createDeck } from '../actions'
 import { NavigationActions } from 'react-navigation'
+import { AsyncStorage } from 'react-native'
 
-class CreateDeck extends Component {
+export default class CreateDeck extends Component {
   state = {
     title: '',
   }
 
   submit = () => {
-    const title = this.state
-
-    this.setState(() => ({
-      title: ''
-    }))
-
-    this.props.dispatch(createDeck({
-      [title]: {}
+    AsyncStorage.setItem('decks', JSON.stringify({
+      [this.state.title]: {}
     })).then(() => {
-      this.props.navigation.navigate('Deck')
+      this.props.navigation.navigate('Home')
     })
   }
 
@@ -62,5 +55,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   }
 })
-
-export default connect()(CreateDeck)
