@@ -28,7 +28,7 @@ export default class CreateDeck extends Component {
           value={this.state.title}
           onChangeText={(text) => this.setState({title: text})}
         />
-        <TouchableOpacity style={styles.submitBtn} onPress={this.submit}>
+        <TouchableOpacity style={[styles.btn, {backgroundColor:'lightgray'}]} onPress={this.submit}>
           <Text style={{color:'white', fontSize:25}}>Submit</Text>
         </TouchableOpacity>
       </View>
@@ -42,12 +42,10 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     fontSize: 25,
     textAlign: 'center',
-    borderWidth: 3,
-    borderColor: 'gray',
+    borderWidth: 2,
     borderRadius: 10,
   },
-  submitBtn: {
-    backgroundColor: 'purple',
+  btn: {
     marginTop: 50,
     padding: 20,
     paddingLeft: 40,

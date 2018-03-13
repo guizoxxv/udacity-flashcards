@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, Text } from 'react-native'
 import { StackNavigator } from 'react-navigation'
 import Decks from './components/Decks'
+import Deck from './components/Deck'
 import CreateDeck from './components/CreateDeck'
 import { Constants } from 'expo'
 
@@ -16,6 +17,12 @@ const Stack = StackNavigator({
     screen: CreateDeck,
     navigationOptions: {
       title: 'Create Deck',
+    }
+  },
+  Deck: {
+    screen: Deck,
+    navigationOptions: {
+      title: 'Deck',
     }
   },
 })
