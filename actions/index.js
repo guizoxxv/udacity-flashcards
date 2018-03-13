@@ -1,16 +1,18 @@
-export const RECEIVE_ENTRIES = 'RECEIVE_ENTRIES'
+import * as API from '../utils/api'
+
+export const GET_DECKS = 'GET_DECKS'
 export const CREATE_DECK = 'CREATE_DECK'
 
-export function receiveEntries(entries) {
+export function getDecks(decks) {
   return {
-    type: 'RECEIVE_ENTRIES',
-    entries,
+    type: GET_DECKS,
+    decks,
   }
 }
 
-export function addDeck(deckTitle) {
+export function createDeck(deck) {
   return {
-    type: 'CREATE_DECK',
-    deckTitle,
+    type: CREATE_DECK,
+    deck,
   }
 }

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
+import { callCreateDeck } from '../actions'
 import { connect } from 'react-redux'
-import { createDeck } from '../actions'
-import { NavigationActions } from 'react-navigation'
+import { AsyncStorage } from 'react-native'
 
 class CreateDeck extends Component {
   state = {
@@ -10,17 +10,9 @@ class CreateDeck extends Component {
   }
 
   submit = () => {
-    const title = this.state
+    callCreateDeck(this.state.title)
 
-    this.setState(() => ({
-      title: ''
-    }))
-
-    this.props.dispatch(createDeck({
-      [title]: {}
-    })).then(() => {
-      this.props.navigation.navigate('Deck')
-    })
+    this.props.navigation.navigate('Decks')
   }
 
   render() {
@@ -34,7 +26,7 @@ class CreateDeck extends Component {
           onChangeText={(text) => this.setState({title: text})}
         />
         <TouchableOpacity style={styles.submitBtn} onPress={this.submit}>
-          <Text style={{color:'white', fontSize:25}}>SUBMIT</Text>
+          <Text style={{color:'white', fontSize:25}}>Submit</Text>
         </TouchableOpacity>
       </View>
     )
@@ -63,4 +55,8 @@ const styles = StyleSheet.create({
   }
 })
 
-export default connect()(CreateDeck)
+const mapStateToProps = ({  }) => ({
+
+})
+
+export default connect(mapStateToProps, { callCreateDeck })(CreateDeck)
