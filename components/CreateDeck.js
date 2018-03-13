@@ -9,10 +9,12 @@ export default class CreateDeck extends Component {
   }
 
   submit = () => {
-    AsyncStorage.setItem('decks', JSON.stringify({
-      [this.state.title]: {}
+    AsyncStorage.mergeItem('decks', JSON.stringify({
+      [this.state.title]: {
+        title: this.state.title
+      }
     })).then(() => {
-      this.props.navigation.navigate('Home')
+      this.props.navigation.navigate('Decks')
     })
   }
 
@@ -27,7 +29,7 @@ export default class CreateDeck extends Component {
           onChangeText={(text) => this.setState({title: text})}
         />
         <TouchableOpacity style={styles.submitBtn} onPress={this.submit}>
-          <Text style={{color:'white', fontSize:25}}>SUBMIT</Text>
+          <Text style={{color:'white', fontSize:25}}>Submit</Text>
         </TouchableOpacity>
       </View>
     )

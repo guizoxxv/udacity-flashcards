@@ -1,60 +1,38 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { AsyncStorage } from 'react-native'
 
 export default class Decks extends Component {
   state = {
-    decks: {}
-    // decks: {
-    //   React: {
-    //     title: 'React',
-    //     questions: [
-    //       {
-    //         question: 'What is React?',
-    //         answer: 'A library for managing user interfaces'
-    //       },
-    //       {
-    //         question: 'Where do you make Ajax requests in React?',
-    //         answer: 'The componentDidMount lifecycle event'
-    //       }
-    //     ]
-    //   },
-    //   JavaScript: {
-    //     title: 'JavaScript',
-    //     questions: [
-    //       {
-    //         question: 'What is a closure?',
-    //         answer: 'The combination of a function and the lexical environment within which that function was declared.'
-    //       }
-    //     ]
-    //   }
-    // }
+    decks: null
   }
 
   componentDidMount() {
     AsyncStorage.getItem('decks').then((decks) => {
       this.setState({
-        decks: JSON.parse(decks)
+        decks: decks === null ? null : JSON.parse(decks)
       })
     })
   }
 
   render() {
     let decks = this.state.decks
-    console.log(decks)
 
     return (
       <View style={{flex:1, alignItems:'center', justifyContent:'center', padding:10}}>
-          {Object.keys(decks).map((key) => (
-            Object.keys(decks[key]).length === 0
-            ?
-              <Text key={key}>No decks available</Text>
-            :
+        <TouchableOpacity style={styles.createDeckBtn} onPress={() => this.props.navigation.navigate('CreateDeck')}>
+          <Text style={{color:'white', fontSize:25}}>Create Deck</Text>
+        </TouchableOpacity>
+
+        {decks === null
+          ?
+            <Text style={{fontSize:20}}>No decks available</Text>
+          :
+            Object.keys(decks).map((key) => (
               <View key={key} style={styles.deck}>
                 <Text style={{fontSize:25, fontWeight:'bold', textAlign:'center'}}>{decks[key].title}</Text>
-                <Text style={{textAlign:'center', fontSize:20, color:'gray'}}>{decks[key].questions.length} Questions</Text>
               </View>
-          ))}
+            ))}
       </View>
     )
   }
@@ -68,5 +46,15 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: 'gray',
     borderRadius: 10,
+  },
+    createDeckBtn: {
+    backgroundColor: 'lightblue',
+    padding: 20,
+    paddingLeft: 40,
+    paddingRight: 40,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
   }
 })
