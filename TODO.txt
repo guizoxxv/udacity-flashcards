@@ -1,0 +1,2 @@
+* validate create deck title input
+* pass only title on navigate params instead of object. worth it?

@@ -1,34 +1,22 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import { AsyncStorage } from 'react-native'
 
 export default class Deck extends Component {
-  state = {
-    deck: null
-  }
-
-  componentDidMount() {
-    this.setState({
-      deck: this.props.navigation.state.params.deck
-    })
-  }
-
   render() {
-    let deck = this.state.deck
-    console.log(deck)
+    let deck = this.props.navigation.state.params.deck
 
     return (
       <View style={{flex:1, padding:10}}>
         <View style={{flex:1, alignItems:'center', justifyContent:'center'}}>
-          <Text style={{textAlign:'center', fontSize:25, fontWeight:'bold', marginBottom:10}}>Deck Title</Text>
-          <Text style={{textAlign:'center', fontSize:20}}># cards</Text>
+          <Text style={{textAlign:'center', fontSize:25, fontWeight:'bold', marginBottom:10}}>{deck.title}</Text>
+          <Text style={{textAlign:'center', fontSize:20}}>{deck.cards !== undefined ? deck.cards.length : 0} cards</Text>
         </View>
         <View style={{flexDirection:'row', alignItems:'flex-end', justifyContent:'space-around'}}>
-          <TouchableOpacity style={[styles.btn, {backgroundColor:'lightpink'}]}>
-            <Text style={{fontSize:25, textAlign:'center'}}>Add Card</Text>
+          <TouchableOpacity style={[styles.btn, {backgroundColor:'lightpink'}]} onPress={() => this.props.navigation.navigate('AddCard', { deck: deck.title})}>
+            <Text style={styles.btnTxt}>Add Card</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.btn, {backgroundColor:'lightgreen'}]}>
-            <Text style={{fontSize:25, textAlign:'center'}}>Start Quiz</Text>
+            <Text style={styles.btnTxt}>Start Quiz</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -45,5 +33,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 20,
+  },
+  btnTxt: {
+    fontSize: 25,
+    textAlign: 'center',
+    color: 'white'
   }
 })

@@ -14,6 +14,10 @@ export default class CreateDeck extends Component {
         title: this.state.title
       }
     })).then(() => {
+      this.setState({
+        title: ''
+      })
+
       this.props.navigation.navigate('Decks')
     })
   }
@@ -24,12 +28,12 @@ export default class CreateDeck extends Component {
         <Text style={{fontSize:25, marginBottom:10}}>Insert deck title</Text>
         <TextInput
           style={styles.titleInput}
-          placeholder='Title'
+          placeholder="Title"
           value={this.state.title}
           onChangeText={(text) => this.setState({title: text})}
         />
         <TouchableOpacity style={[styles.btn, {backgroundColor:'lightgray'}]} onPress={this.submit}>
-          <Text style={{color:'white', fontSize:25}}>Submit</Text>
+          <Text style={styles.btnTxt}>Submit</Text>
         </TouchableOpacity>
       </View>
     )
@@ -53,5 +57,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  btnTxt: {
+    fontSize: 25,
+    textAlign: 'center',
+    color: 'white'
   }
 })

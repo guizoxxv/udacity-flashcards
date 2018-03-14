@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native'
 import { AsyncStorage } from 'react-native'
 
 export default class Decks extends Component {
@@ -15,14 +15,37 @@ export default class Decks extends Component {
     })
   }
 
+  clearDecks() {
+    Alert.alert(
+      'Confirm',
+      'Clear all decks?',
+      [
+        {
+          text: 'Cancel'
+        },
+        {
+          text: 'OK',
+          onPress: () => {
+            AsyncStorage.clear().then(this.setState({
+              decks: null
+            }))
+          }
+        },
+      ]
+    )
+  }
+
   render() {
     let decks = this.state.decks
 
     return (
       <View style={{flex:1, padding:10}}>
-        <View style={{alignItems:'flex-end', justifyContent:'center', padding:10}}>
-          <TouchableOpacity style={styles.createDeckBtn} onPress={() => this.props.navigation.navigate('CreateDeck')}>
-            <Text style={{color:'white', fontSize:25}}>Create Deck</Text>
+        <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', padding:10}}>
+          <TouchableOpacity style={[styles.btn, {backgroundColor:'lightsalmon'}]} onPress={() => this.clearDecks()}>
+            <Text style={styles.btnTxt}>Clear Decks</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.btn, {backgroundColor:'lightblue'}]} onPress={() => this.props.navigation.navigate('CreateDeck')}>
+            <Text style={styles.btnTxt}>Create Deck</Text>
           </TouchableOpacity>
         </View>
         <View style={{flex:1, alignItems:'center', justifyContent:'center', padding:10}}>
@@ -50,8 +73,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 10,
   },
-  createDeckBtn: {
-    backgroundColor: 'lightblue',
+  btn: {
     padding: 20,
     paddingLeft: 40,
     paddingRight: 40,
@@ -59,5 +81,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 20,
+  },
+  btnTxt: {
+    fontSize: 25,
+    textAlign: 'center',
+    color: 'white'
   }
 })
