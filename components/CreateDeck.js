@@ -9,16 +9,18 @@ export default class CreateDeck extends Component {
   }
 
   submit = () => {
+    let title = this.state.title
+
     AsyncStorage.mergeItem('decks', JSON.stringify({
-      [this.state.title]: {
-        title: this.state.title
+      [title]: {
+        title: title
       }
     })).then(() => {
       this.setState({
         title: ''
       })
 
-      this.props.navigation.navigate('Decks')
+      this.props.navigation.navigate('Deck', { deck: title })
     })
   }
 
@@ -27,7 +29,7 @@ export default class CreateDeck extends Component {
       <View style={{flex:1, alignItems:'center', justifyContent:'center', padding:10}}>
         <Text style={{fontSize:25, marginBottom:10}}>Insert deck title</Text>
         <TextInput
-          style={styles.titleInput}
+          style={styles.textInput}
           placeholder="Title"
           value={this.state.title}
           onChangeText={(text) => this.setState({title: text})}
@@ -41,7 +43,7 @@ export default class CreateDeck extends Component {
 }
 
 const styles = StyleSheet.create({
-  titleInput: {
+  textInput: {
     height: 100,
     alignSelf: 'stretch',
     fontSize: 25,

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native'
-import { AsyncStorage } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Alert, AsyncStorage } from 'react-native'
 
 export default class Decks extends Component {
   state = {
@@ -54,7 +53,7 @@ export default class Decks extends Component {
               <Text style={{fontSize:20}}>No decks available</Text>
             :
               Object.keys(decks).map((key) => (
-                <TouchableOpacity key={key} style={styles.deck} onPress={() => this.props.navigation.navigate('Deck', { deck: decks[key]})}>
+                <TouchableOpacity key={key} style={styles.deck} onPress={() => this.props.navigation.navigate('Deck', { deck: decks[key].title })}>
                   <Text style={{fontSize:25, textAlign:'center'}}>{decks[key].title}</Text>
                 </TouchableOpacity>
               ))

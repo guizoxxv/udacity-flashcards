@@ -1,2 +1,3 @@
 * validate create deck title input
-* pass only title on navigate params instead of object. worth it?
+* state do componente decks nao atualiza ao retornar via StackNavigator
+* corrigir mergeItem em AddCard.js
