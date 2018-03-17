@@ -5,7 +5,7 @@ import { inject, observer } from 'mobx-react'
 @inject('AppStore')
 @observer
 class Decks extends Component {
-  componentDidMount() {
+  componentWillMount() {
     AsyncStorage.getItem('decks').then((decks) => {
       this.props.AppStore.setDecks(JSON.parse(decks))
     })
@@ -57,7 +57,7 @@ class Decks extends Component {
               <Text style={{fontSize:20}}>No decks available</Text>
             :
               AppStore.decks.map((deck) => (
-                <TouchableOpacity key={deck} style={styles.deck} onPress={() => this.props.navigation.navigate('Deck', { deck: deck })}>
+                <TouchableOpacity key={deck.title} style={styles.deck} onPress={() => this.props.navigation.navigate('Deck', { deck: deck })}>
                   <Text style={{fontSize:25, textAlign:'center'}}>{deck.title}</Text>
                 </TouchableOpacity>
               ))

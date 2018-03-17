@@ -1,6 +1,6 @@
 import { observable, action, computed } from 'mobx'
 
-class AppStore {
+class AppStoreClass {
   @observable decks = []
 
   @action setDecks = (decks) => {
@@ -11,11 +11,15 @@ class AppStore {
     this.decks.push(deck)
   }
 
+  @action addCard = (index, card) => {
+    this.decks[index].cards.push(card)
+  }
+
   @computed get decksCount() {
     return this.decks.length
   }
 }
 
-const store = new AppStore()
+const AppStore = new AppStoreClass()
 
-export default store
+export default AppStore

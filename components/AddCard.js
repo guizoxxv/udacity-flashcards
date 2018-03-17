@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, AsyncStorage, KeyboardAvoidingView } from 'react-native'
 import { inject, observer } from 'mobx-react'
+
 
 @inject('AppStore')
 @observer
@@ -11,30 +12,38 @@ class AddCard extends Component {
   }
 
   submit = () => {
-    AsyncStorage.setItem('decks', JSON.stringify(
-      {
-        cards: [
-          {
-            question: this.state.question,
-            answer: this.state.answer
-          }
-        ]
-      }
-    )).then(() => {
+    let { deck } = this.props.navigation.state.params
+    let { decks } = this.props.AppStore
+    let index = decks.findIndex(function(e) {
+      return e.title == deck.title
+    })
+
+    let card = {
+      question: this.state.question,
+      answer: this.state.answer,
+    }
+
+    this.props.AppStore.addCard(index, card)
+
+    AsyncStorage.setItem('decks', JSON.stringify(decks)).then(() => {
       this.setState({
         question: '',
-        answer: '',
+        answer: ''
       })
 
-      this.props.AppStore.addDeck(deck)
-
-      this.props.navigation.navigate('Decks', { deck: title })
+      this.props.navigation.navigate('Deck', { deck: deck })
     })
   }
 
   render() {
+    let { deck } = this.props.navigation.state.params
+
     return (
-      <View style={{flex:1, alignItems:'center', justifyContent:'center', padding:10}}>
+      <KeyboardAvoidingView behavior='padding' style={{flex:1, alignItems:'center', justifyContent:'center', padding:10}}>
+        <View style={{flex:1, alignItems:'center', justifyContent:'center'}}>
+          <Text style={{textAlign:'center', fontSize:25, fontWeight:'bold', marginBottom:10}}>{deck.title}</Text>
+          <Text style={{textAlign:'center', fontSize:20}}>{deck.cards.length} cards</Text>
+        </View>
         <Text style={{fontSize:25, marginBottom:10}}>Insert card question</Text>
         <TextInput
           style={[styles.textInput, {marginBottom:20}]}
@@ -52,7 +61,7 @@ class AddCard extends Component {
         <TouchableOpacity style={[styles.btn, {backgroundColor:'lightgray'}]} onPress={this.submit}>
           <Text style={styles.btnTxt}>Submit</Text>
         </TouchableOpacity>
-      </View>
+      </KeyboardAvoidingView>
     )
   }
 }

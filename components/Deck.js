@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 
 export default class Deck extends Component {
   render() {
-    let deck = this.props.navigation.state.params.deck
+    let { deck } = this.props.navigation.state.params
 
     return (
       <View style={{flex:1, padding:10}}>

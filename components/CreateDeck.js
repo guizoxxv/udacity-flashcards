@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, AsyncStorage, KeyboardAvoidingView } from 'react-native'
 import { NavigationActions } from 'react-navigation'
-import { AsyncStorage } from 'react-native'
 import { inject, observer } from 'mobx-react'
 
 @inject('AppStore')
@@ -12,17 +11,19 @@ class CreateDeck extends Component {
   }
 
   submit = () => {
+    let { decks } = this.props.AppStore
+
     let deck = {
       title: this.state.title,
       cards: []
     }
 
-    AsyncStorage.mergeItem('decks', JSON.stringify(deck)).then(() => {
+    this.props.AppStore.addDeck(deck)
+
+    AsyncStorage.setItem('decks', JSON.stringify(decks)).then(() => {
       this.setState({
         title: ''
       })
-
-      this.props.AppStore.addDeck(deck)
 
       this.props.navigation.navigate('Deck', { deck: deck })
     })
@@ -30,7 +31,7 @@ class CreateDeck extends Component {
 
   render() {
     return (
-      <View style={{flex:1, alignItems:'center', justifyContent:'center', padding:10}}>
+      <KeyboardAvoidingView behavior='padding' style={{flex:1, alignItems:'center', justifyContent:'center', padding:10}}>
         <Text style={{fontSize:25, marginBottom:10}}>Insert deck title</Text>
         <TextInput
           style={styles.textInput}
@@ -41,7 +42,7 @@ class CreateDeck extends Component {
         <TouchableOpacity style={[styles.btn, {backgroundColor:'lightgray'}]} onPress={this.submit}>
           <Text style={styles.btnTxt}>Submit</Text>
         </TouchableOpacity>
-      </View>
+      </KeyboardAvoidingView>
     )
   }
 }

@@ -1,3 +1,1 @@
 * validate create deck title input
-* state do componente decks nao atualiza ao retornar via StackNavigator
-* corrigir mergeItem em AddCard.js
