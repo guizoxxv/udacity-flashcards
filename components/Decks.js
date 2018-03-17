@@ -41,7 +41,7 @@ class Decks extends Component {
     return (
       <View style={{flex:1, padding:10}}>
         <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', padding:10}}>
-          <TouchableOpacity style={[styles.btn, {backgroundColor:'lightsalmon'}]} onPress={() => this.clearDecks()}>
+          <TouchableOpacity style={[styles.btn, {backgroundColor:'red'}]} onPress={() => this.clearDecks()}>
             <Text style={styles.btnTxt}>Clear Decks</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.btn, {backgroundColor:'lightgray'}]} onPress={() => this.consoleDecks()}>

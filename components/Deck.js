@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 
-export default class Deck extends Component {
+class Deck extends Component {
   render() {
     let { deck } = this.props.navigation.state.params
 
@@ -15,9 +15,11 @@ export default class Deck extends Component {
           <TouchableOpacity style={[styles.btn, {backgroundColor:'lightpink'}]} onPress={() => this.props.navigation.navigate('AddCard', { deck: deck })}>
             <Text style={styles.btnTxt}>Add Card</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.btn, {backgroundColor:'lightgreen'}]}>
-            <Text style={styles.btnTxt}>Start Quiz</Text>
-          </TouchableOpacity>
+          {deck.cards.length > 0 &&
+            <TouchableOpacity style={[styles.btn, {backgroundColor:'lightblue'}]} onPress={() => this.props.navigation.navigate('Quiz', { deck: deck })}>
+              <Text style={styles.btnTxt}>Start Quiz</Text>
+            </TouchableOpacity>
+          }
         </View>
       </View>
     )
@@ -40,3 +42,5 @@ const styles = StyleSheet.create({
     color: 'white'
   }
 })
+
+export default Deck

@@ -3,8 +3,9 @@ import { View, Text } from 'react-native'
 import { StackNavigator } from 'react-navigation'
 import Decks from './Decks'
 import Deck from './Deck'
-import AddCard from './AddCard'
 import CreateDeck from './CreateDeck'
+import AddCard from './AddCard'
+import Quiz from './Quiz'
 import { Constants } from 'expo'
 
 const Stack = StackNavigator({
@@ -30,6 +31,12 @@ const Stack = StackNavigator({
     screen: AddCard,
     navigationOptions: {
       title: 'Add Card',
+    }
+  },
+  Quiz: {
+    screen: Quiz,
+    navigationOptions: {
+      title: 'Quiz',
     }
   },
 })
