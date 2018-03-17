@@ -1,16 +1,13 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Alert, AsyncStorage } from 'react-native'
+import { inject, observer } from 'mobx-react'
 
-export default class Decks extends Component {
-  state = {
-    decks: null
-  }
-
+@inject('AppStore')
+@observer
+class Decks extends Component {
   componentDidMount() {
     AsyncStorage.getItem('decks').then((decks) => {
-      this.setState({
-        decks: decks === null ? null : JSON.parse(decks)
-      })
+      this.props.AppStore.setDecks(JSON.parse(decks))
     })
   }
 
@@ -25,17 +22,21 @@ export default class Decks extends Component {
         {
           text: 'OK',
           onPress: () => {
-            AsyncStorage.clear().then(this.setState({
-              decks: null
-            }))
+            AsyncStorage.clear().then(() => {
+              this.props.AppStore.setDecks(null)
+            })
           }
         },
       ]
     )
   }
 
+  consoleDecks() {
+    console.log(this.props.AppStore.decks)
+  }
+
   render() {
-    let decks = this.state.decks
+    let { decks } = this.props.AppStore
 
     return (
       <View style={{flex:1, padding:10}}>
@@ -43,18 +44,21 @@ export default class Decks extends Component {
           <TouchableOpacity style={[styles.btn, {backgroundColor:'lightsalmon'}]} onPress={() => this.clearDecks()}>
             <Text style={styles.btnTxt}>Clear Decks</Text>
           </TouchableOpacity>
+          <TouchableOpacity style={[styles.btn, {backgroundColor:'lightgray'}]} onPress={() => this.consoleDecks()}>
+            <Text style={styles.btnTxt}>Console Decks</Text>
+          </TouchableOpacity>
           <TouchableOpacity style={[styles.btn, {backgroundColor:'lightblue'}]} onPress={() => this.props.navigation.navigate('CreateDeck')}>
             <Text style={styles.btnTxt}>Create Deck</Text>
           </TouchableOpacity>
         </View>
         <View style={{flex:1, alignItems:'center', justifyContent:'center', padding:10}}>
-          {decks === null
+          {Object.keys(decks).length === 0
             ?
               <Text style={{fontSize:20}}>No decks available</Text>
             :
-              Object.keys(decks).map((key) => (
-                <TouchableOpacity key={key} style={styles.deck} onPress={() => this.props.navigation.navigate('Deck', { deck: decks[key].title })}>
-                  <Text style={{fontSize:25, textAlign:'center'}}>{decks[key].title}</Text>
+              Object.keys(decks).map((deck) => (
+                <TouchableOpacity key={deck} style={styles.deck} onPress={() => this.props.navigation.navigate('Deck', { deck: decks[deck] })}>
+                  <Text style={{fontSize:25, textAlign:'center'}}>{decks[deck].title}</Text>
                 </TouchableOpacity>
               ))
           }
@@ -87,3 +91,5 @@ const styles = StyleSheet.create({
     color: 'white'
   }
 })
+
+export default Decks

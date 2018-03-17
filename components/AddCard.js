@@ -1,17 +1,18 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native'
+import { inject, observer } from 'mobx-react'
 
-export default class AddCard extends Component {
+@inject('AppStore')
+@observer
+class AddCard extends Component {
   state = {
     question: '',
     answer: '',
   }
 
   submit = () => {
-    let title = this.props.navigation.state.params.deck
-
-    AsyncStorage.mergeItem('decks', JSON.stringify({
-      [title]: {
+    AsyncStorage.setItem('decks', JSON.stringify(
+      {
         cards: [
           {
             question: this.state.question,
@@ -19,19 +20,19 @@ export default class AddCard extends Component {
           }
         ]
       }
-    })).then(() => {
+    )).then(() => {
       this.setState({
         question: '',
         answer: '',
       })
+
+      this.props.AppStore.addDeck(deck)
 
       this.props.navigation.navigate('Decks', { deck: title })
     })
   }
 
   render() {
-    let deck = this.props.navigation.state.params.deck
-
     return (
       <View style={{flex:1, alignItems:'center', justifyContent:'center', padding:10}}>
         <Text style={{fontSize:25, marginBottom:10}}>Insert card question</Text>
@@ -80,3 +81,5 @@ const styles = StyleSheet.create({
     color: 'white'
   }
 })
+
+export default AddCard

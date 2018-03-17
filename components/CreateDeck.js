@@ -2,25 +2,31 @@ import React, { Component } from 'react'
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
 import { NavigationActions } from 'react-navigation'
 import { AsyncStorage } from 'react-native'
+import { inject, observer } from 'mobx-react'
 
-export default class CreateDeck extends Component {
+@inject('AppStore')
+@observer
+class CreateDeck extends Component {
   state = {
     title: '',
   }
 
   submit = () => {
     let title = this.state.title
-
-    AsyncStorage.mergeItem('decks', JSON.stringify({
+    let deck = {
       [title]: {
         title: title
       }
-    })).then(() => {
+    }
+
+    AsyncStorage.mergeItem('decks', JSON.stringify(deck)).then(() => {
       this.setState({
         title: ''
       })
 
-      this.props.navigation.navigate('Deck', { deck: title })
+      this.props.AppStore.addDeck(deck[title])
+
+      this.props.navigation.navigate('Deck', { deck: deck })
     })
   }
 
@@ -66,3 +72,5 @@ const styles = StyleSheet.create({
     color: 'white'
   }
 })
+
+export default CreateDeck
