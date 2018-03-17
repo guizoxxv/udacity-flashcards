@@ -6,6 +6,7 @@ import Deck from './Deck'
 import CreateDeck from './CreateDeck'
 import AddCard from './AddCard'
 import Quiz from './Quiz'
+import QuizEnd from './QuizEnd'
 import { Constants } from 'expo'
 
 const Stack = StackNavigator({
@@ -37,6 +38,13 @@ const Stack = StackNavigator({
     screen: Quiz,
     navigationOptions: {
       title: 'Quiz',
+    }
+  },
+  QuizEnd: {
+    screen: QuizEnd,
+    navigationOptions: {
+      title: 'QuizEnd',
+      header: null
     }
   },
 })

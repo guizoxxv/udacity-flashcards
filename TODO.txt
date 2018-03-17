@@ -1,1 +1,2 @@
 * validate create deck title input
+* resetar estado do quiz

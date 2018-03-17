@@ -3,8 +3,9 @@ import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native
 
 class Quiz extends Component {
   state = {
-    cardIndex: 1,
-    showBack: false
+    cardIndex: 0,
+    showBack: false,
+    score: 0
   }
 
   componentWillMount() {
@@ -54,8 +55,27 @@ class Quiz extends Component {
     this.setState({
       showBack: !this.state.showBack
     })
+  }
 
-    console.log(this.state.showBack)
+  updateScore = (value) => {
+    if(value === true) {
+      this.setState({
+        score: this.state.score + 1
+      })
+    }
+
+    if(this.state.cardIndex + 1 === this.props.navigation.state.params.deck.cards.length) {
+      this.props.navigation.navigate('QuizEnd', {
+        deck: this.props.navigation.state.params.deck,
+        score: this.state.score
+      })
+    } else {
+      this.setState({
+        cardIndex: this.state.cardIndex + 1
+      })
+
+      this.flipCard()
+    }
   }
 
   render() {
@@ -72,29 +92,30 @@ class Quiz extends Component {
     }
 
     let { deck } = this.props.navigation.state.params
-    let { cardIndex, showBack } = this.state
+    let { cardIndex, showBack, score } = this.state
 
     return (
       <View style={{flex:1, padding:10}}>
-      <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', padding:10}}>
-        <Text style={{fontSize:20, fontWeight:'bold'}}>{deck.title}</Text>
-        <Text style={{fontSize:20, fontWeight:'bold'}}>{cardIndex} / {deck.cards.length}</Text>
-      </View>
+        <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', padding:10}}>
+          <Text style={{fontSize:20, fontWeight:'bold'}}>{deck.title}</Text>
+          <Text style={{fontSize:20, fontWeight:'bold'}}>Score: {score}</Text>
+          <Text style={{fontSize:20, fontWeight:'bold'}}>{cardIndex + 1} / {deck.cards.length}</Text>
+        </View>
         <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
           <Animated.View style={[styles.flipCard, frontAnimatedStyle, {opacity: this.frontOpacity}]}>
             <Text style={{fontSize:25, fontWeight:'bold', textAlign:'center'}}>
-              Question: <Text style={{fontWeight:'normal'}}>{deck.cards[cardIndex - 1].question}</Text>
+              Question: <Text style={{fontWeight:'normal'}}>{deck.cards[cardIndex].question}</Text>
             </Text>
           </Animated.View>
           <Animated.View style={[styles.flipCard, backAnimatedStyle, {opacity: this.backOpacity}]}>
             <Text style={{fontSize:25, fontWeight:'bold', textAlign:'center'}}>
-              Answer: <Text style={{fontWeight:'normal'}}>{deck.cards[cardIndex - 1].answer}</Text>
+              Answer: <Text style={{fontWeight:'normal'}}>{deck.cards[cardIndex].answer}</Text>
             </Text>
           </Animated.View>
         </View>
         <View style={{flexDirection:'row', alignItems:'flex-end', justifyContent:'space-around'}}>
           {showBack === true &&
-            <TouchableOpacity style={[styles.btn, {backgroundColor:'lightgreen'}]}>
+            <TouchableOpacity style={[styles.btn, {backgroundColor:'green'}]} onPress={() => this.updateScore(false)}>
               <Text style={styles.btnTxt}>Incorrect</Text>
             </TouchableOpacity>
           }
@@ -102,7 +123,7 @@ class Quiz extends Component {
             <Text style={styles.btnTxt}>View {showBack === false ? 'Answer' : 'Question'}</Text>
           </TouchableOpacity>
           {showBack === true &&
-            <TouchableOpacity style={[styles.btn, {backgroundColor:'lightsalmon'}]}>
+            <TouchableOpacity style={[styles.btn, {backgroundColor:'red'}]} onPress={() => this.updateScore(true)}>
               <Text style={styles.btnTxt}>Correct</Text>
             </TouchableOpacity>
           }
