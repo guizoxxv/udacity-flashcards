@@ -1,18 +1,18 @@
 import { observable, action, computed } from 'mobx'
 
 class AppStore {
-  @observable decks = {}
+  @observable decks = []
 
   @action setDecks = (decks) => {
-    this.decks = decks === null ? {} : decks
+    this.decks = decks === null ? [] : decks
   }
 
   @action addDeck = (deck) => {
-    this.decks[deck.title] = deck
+    this.decks.push(deck)
   }
 
   @computed get decksCount() {
-    return Object.keys(this.decks).length
+    return this.decks.length
   }
 }
 

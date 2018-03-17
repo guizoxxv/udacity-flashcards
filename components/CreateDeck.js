@@ -12,11 +12,9 @@ class CreateDeck extends Component {
   }
 
   submit = () => {
-    let title = this.state.title
     let deck = {
-      [title]: {
-        title: title
-      }
+      title: this.state.title,
+      cards: []
     }
 
     AsyncStorage.mergeItem('decks', JSON.stringify(deck)).then(() => {
@@ -24,7 +22,7 @@ class CreateDeck extends Component {
         title: ''
       })
 
-      this.props.AppStore.addDeck(deck[title])
+      this.props.AppStore.addDeck(deck)
 
       this.props.navigation.navigate('Deck', { deck: deck })
     })

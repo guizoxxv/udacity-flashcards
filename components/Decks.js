@@ -36,7 +36,7 @@ class Decks extends Component {
   }
 
   render() {
-    let { decks } = this.props.AppStore
+    let { AppStore } = this.props
 
     return (
       <View style={{flex:1, padding:10}}>
@@ -52,13 +52,13 @@ class Decks extends Component {
           </TouchableOpacity>
         </View>
         <View style={{flex:1, alignItems:'center', justifyContent:'center', padding:10}}>
-          {Object.keys(decks).length === 0
+          {AppStore.decksCount === 0
             ?
               <Text style={{fontSize:20}}>No decks available</Text>
             :
-              Object.keys(decks).map((deck) => (
-                <TouchableOpacity key={deck} style={styles.deck} onPress={() => this.props.navigation.navigate('Deck', { deck: decks[deck] })}>
-                  <Text style={{fontSize:25, textAlign:'center'}}>{decks[deck].title}</Text>
+              AppStore.decks.map((deck) => (
+                <TouchableOpacity key={deck} style={styles.deck} onPress={() => this.props.navigation.navigate('Deck', { deck: deck })}>
+                  <Text style={{fontSize:25, textAlign:'center'}}>{deck.title}</Text>
                 </TouchableOpacity>
               ))
           }

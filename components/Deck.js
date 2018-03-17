@@ -9,7 +9,7 @@ export default class Deck extends Component {
       <View style={{flex:1, padding:10}}>
         <View style={{flex:1, alignItems:'center', justifyContent:'center'}}>
           <Text style={{textAlign:'center', fontSize:25, fontWeight:'bold', marginBottom:10}}>{deck.title}</Text>
-          <Text style={{textAlign:'center', fontSize:20}}>{deck.cards !== undefined ? deck.cards.length : 0} cards</Text>
+          <Text style={{textAlign:'center', fontSize:20}}>{deck.cards.length} cards</Text>
         </View>
         <View style={{flexDirection:'row', alignItems:'flex-end', justifyContent:'space-around'}}>
           <TouchableOpacity style={[styles.btn, {backgroundColor:'lightpink'}]} onPress={() => this.props.navigation.navigate('AddCard', { deck: deck })}>
