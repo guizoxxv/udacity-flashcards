@@ -2,6 +2,7 @@ import { observable, action, computed } from 'mobx'
 
 class AppStoreClass {
   @observable decks = []
+  @observable score = 0
 
   @action setDecks = (decks) => {
     this.decks = decks === null ? [] : decks

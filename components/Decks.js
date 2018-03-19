@@ -5,7 +5,7 @@ import { inject, observer } from 'mobx-react'
 @inject('AppStore')
 @observer
 class Decks extends Component {
-  componentWillMount() {
+  componentDidMount() {
     AsyncStorage.getItem('decks').then((decks) => {
       this.props.AppStore.setDecks(JSON.parse(decks))
     })

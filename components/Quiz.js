@@ -58,24 +58,22 @@ class Quiz extends Component {
   }
 
   updateScore = (value) => {
-    if(value === true) {
       this.setState({
-        score: this.state.score + 1
-      })
-    }
+        score: this.state.score + value
+      }, function() {
+        if(this.state.cardIndex + 1 === this.props.navigation.state.params.deck.cards.length) {
+          this.props.navigation.navigate('QuizEnd', {
+            deck: this.props.navigation.state.params.deck,
+            score: this.state.score
+          })
+        } else {
+          this.setState({
+            cardIndex: this.state.cardIndex + 1
+          })
 
-    if(this.state.cardIndex + 1 === this.props.navigation.state.params.deck.cards.length) {
-      this.props.navigation.navigate('QuizEnd', {
-        deck: this.props.navigation.state.params.deck,
-        score: this.state.score
+          this.flipCard()
+        }
       })
-    } else {
-      this.setState({
-        cardIndex: this.state.cardIndex + 1
-      })
-
-      this.flipCard()
-    }
   }
 
   render() {
@@ -113,7 +111,7 @@ class Quiz extends Component {
         </View>
         <View style={{flexDirection:'row', flexWrap:'wrap', alignItems:'flex-end', justifyContent:'space-around'}}>
           {showBack === true &&
-            <TouchableOpacity style={[styles.btn, {backgroundColor:'green'}]} onPress={() => this.updateScore(false)}>
+            <TouchableOpacity style={[styles.btn, {backgroundColor:'green'}]} onPress={() => this.updateScore(0)}>
               <Text style={styles.btnTxt}>Incorrect</Text>
             </TouchableOpacity>
           }
@@ -121,7 +119,7 @@ class Quiz extends Component {
             <Text style={styles.btnTxt}>View {showBack === false ? 'Answer' : 'Question'}</Text>
           </TouchableOpacity>
           {showBack === true &&
-            <TouchableOpacity style={[styles.btn, {backgroundColor:'red'}]} onPress={() => this.updateScore(true)}>
+            <TouchableOpacity style={[styles.btn, {backgroundColor:'red'}]} onPress={() => this.updateScore(1)}>
               <Text style={styles.btnTxt}>Correct</Text>
             </TouchableOpacity>
           }
