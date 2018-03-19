@@ -31,7 +31,7 @@ class AddCard extends Component {
         answer: ''
       })
 
-      this.props.navigation.navigate('Deck', { deck: deck })
+      this.props.navigation.navigate('Deck', { deck: this.props.AppStore.decks[index] })
     })
   }
 

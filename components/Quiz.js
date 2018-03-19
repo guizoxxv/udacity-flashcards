@@ -96,24 +96,22 @@ class Quiz extends Component {
 
     return (
       <View style={{flex:1, padding:10}}>
-        <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', padding:10}}>
+        <View style={{flexDirection:'row', flexWrap:'wrap', alignItems:'center', justifyContent:'space-between'}}>
           <Text style={{fontSize:20, fontWeight:'bold'}}>{deck.title}</Text>
           <Text style={{fontSize:20, fontWeight:'bold'}}>Score: {score}</Text>
           <Text style={{fontSize:20, fontWeight:'bold'}}>{cardIndex + 1} / {deck.cards.length}</Text>
         </View>
         <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
           <Animated.View style={[styles.flipCard, frontAnimatedStyle, {opacity: this.frontOpacity}]}>
-            <Text style={{fontSize:25, fontWeight:'bold', textAlign:'center'}}>
-              Question: <Text style={{fontWeight:'normal'}}>{deck.cards[cardIndex].question}</Text>
-            </Text>
+            <Text style={{fontSize:25, fontWeight:'bold', textAlign:'center'}}>Question {cardIndex + 1}:</Text>
+            <Text style={{fontSize:20, textAlign:'center'}}>{deck.cards[cardIndex].question}</Text>
           </Animated.View>
           <Animated.View style={[styles.flipCard, backAnimatedStyle, {opacity: this.backOpacity}]}>
-            <Text style={{fontSize:25, fontWeight:'bold', textAlign:'center'}}>
-              Answer: <Text style={{fontWeight:'normal'}}>{deck.cards[cardIndex].answer}</Text>
-            </Text>
+            <Text style={{fontSize:25, fontWeight:'bold', textAlign:'center'}}>Answer:</Text>
+            <Text style={{fontSize:20, textAlign:'center'}}>{deck.cards[cardIndex].answer}</Text>
           </Animated.View>
         </View>
-        <View style={{flexDirection:'row', alignItems:'flex-end', justifyContent:'space-around'}}>
+        <View style={{flexDirection:'row', flexWrap:'wrap', alignItems:'flex-end', justifyContent:'space-around'}}>
           {showBack === true &&
             <TouchableOpacity style={[styles.btn, {backgroundColor:'green'}]} onPress={() => this.updateScore(false)}>
               <Text style={styles.btnTxt}>Incorrect</Text>

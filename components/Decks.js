@@ -40,14 +40,14 @@ class Decks extends Component {
 
     return (
       <View style={{flex:1, padding:10}}>
-        <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', padding:10}}>
-          <TouchableOpacity style={[styles.btn, {backgroundColor:'red'}]} onPress={() => this.clearDecks()}>
+        <View style={{flexDirection:'row', flexWrap:'wrap', alignItems:'center', justifyContent:'center'}}>
+          <TouchableOpacity style={[styles.btn, {backgroundColor:'red', margin:10}]} onPress={() => this.clearDecks()}>
             <Text style={styles.btnTxt}>Clear Decks</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.btn, {backgroundColor:'lightgray'}]} onPress={() => this.consoleDecks()}>
+          <TouchableOpacity style={[styles.btn, {backgroundColor:'lightgray', margin:10}]} onPress={() => this.consoleDecks()}>
             <Text style={styles.btnTxt}>Console Decks</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.btn, {backgroundColor:'lightblue'}]} onPress={() => this.props.navigation.navigate('CreateDeck')}>
+          <TouchableOpacity style={[styles.btn, {backgroundColor:'lightblue', margin:10}]} onPress={() => this.props.navigation.navigate('CreateDeck')}>
             <Text style={styles.btnTxt}>Create Deck</Text>
           </TouchableOpacity>
         </View>

@@ -13,7 +13,7 @@ class QuizEnd extends Component {
           <Text style={{fontSize:20, marginBottom:20}}>You answered {score} of {deck.cards.length} correctly</Text>
           <Text style={{fontSize:20}}>Progress: {percentScore}%</Text>
         </View>
-        <View style={{flexDirection:'row', alignItems:'flex-end', justifyContent:'space-around'}}>
+        <View style={{flexDirection:'row', flexWrap:'wrap', alignItems:'flex-end', justifyContent:'space-around'}}>
           <TouchableOpacity style={[styles.btn, {backgroundColor:'lightgray'}]} onPress={() => this.props.navigation.navigate('Decks')}>
             <Text style={styles.btnTxt}>Go to home</Text>
           </TouchableOpacity>

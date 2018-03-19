@@ -11,7 +11,7 @@ class Deck extends Component {
           <Text style={{textAlign:'center', fontSize:25, fontWeight:'bold', marginBottom:10}}>{deck.title}</Text>
           <Text style={{textAlign:'center', fontSize:20}}>{deck.cards.length} cards</Text>
         </View>
-        <View style={{flexDirection:'row', alignItems:'flex-end', justifyContent:'space-around'}}>
+        <View style={{flexDirection:'row', flexWrap:'wrap', alignItems:'flex-end', justifyContent:'space-around'}}>
           <TouchableOpacity style={[styles.btn, {backgroundColor:'lightpink'}]} onPress={() => this.props.navigation.navigate('AddCard', { deck: deck })}>
             <Text style={styles.btnTxt}>Add Card</Text>
           </TouchableOpacity>
